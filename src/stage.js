@@ -1,0 +1,3 @@
+class Stage {
+  static initialize() {}
+}
