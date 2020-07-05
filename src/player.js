@@ -160,7 +160,59 @@ class Player {
     this.movablePuyoElement.style.top = y + "px";
   }
 
-  static falling(isDownPressed) {}
+  static falling(isDownPressed) {
+    let isBlocked = false;
+    let x = this.puyoStatus.x;
+    let y = this.puyoStatus.y;
+    let dx = this.puyoStatus.dx;
+    let dy = this.puyoStatus.dy;
+    if (
+      y + 1 >= Config.stageRows ||
+      stage.board[y + 1][x] ||
+      (y + dy + 1 >= 0 && (Config.stageRows || Stage.board[y + dy + 1][x + dx]))
+    ) {
+      isBlocked = true;
+    }
+    if (!isBlocked) {
+      this.puyoStatus.top += Config.playerFallingSpeed;
+      if (isDownPressed) {
+        this.puyoStatus.top += Config.playerDownSpeed;
+      }
+      if (Math.floor(this.puyoStatus.top / Congfig.puyoImgHeight) != y) {
+        if (isDownPressed) Score.addScore(1);
+        y += 1;
+        this.puyoStatus.y = y;
+        if (
+          y + 1 >= Config.stageRows ||
+          Stage.board[y + 1][x] ||
+          (y + dy + 1 >= 0 &&
+            (y + dy + 1 >= Config.stageRows || Stage.board[y + dy + 1][x + dx]))
+        ) {
+          isBlocked = true;
+        }
+        if (!isBlocked) {
+          this.groundFrame = 0;
+          return;
+        } else {
+          this.puyoStatus.top = y * Config.puyoImgHeight;
+          this.groundFrame = 1;
+          return;
+        }
+      } else {
+        this.groundFrame = 0;
+        return;
+      }
+    }
+    if (this.groundFrame == 0) {
+      this.groundFrame = 1;
+      return;
+    } else {
+      this.groundFrame++;
+      if (this.groundFrame > Config.playerGroudFrame) {
+        return true;
+      }
+    }
+  }
 
   static playing(frame) {}
 
