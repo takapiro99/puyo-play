@@ -1,5 +1,3 @@
-const { config } = require("react-transition-group");
-
 class Score {
   static initialize() {
     this.fontTemplateList = [];
