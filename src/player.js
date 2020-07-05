@@ -214,13 +214,21 @@ class Player {
     }
   }
 
-  static playing(frame) {}
+  static playing(frame) {
+    return;
+  }
 
-  static moving(frame) {}
+  static moving(frame) {
+    return;
+  }
 
-  static rotating() {}
+  static rotating() {
+    return;
+  }
 
-  static fix() {}
+  static fix() {
+    return;
+  }
 
   static batankyu() {
     if (this.keyStatus.up) {

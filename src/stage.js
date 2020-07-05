@@ -18,6 +18,7 @@ class Stage {
     scoreElement.style.top = Config.puyoImgHeight * Config.stageRows + "px";
     scoreElement.style.width = Config.puyoImgWidth * Config.stageCols + "px";
     scoreElement.style.height = Config.fontHeight + "px";
+    this.scoreElement = scoreElement;
 
     this.board = [
       [0, 0, 0, 0, 0, 0],
@@ -69,22 +70,22 @@ class Stage {
         if (!this.board[y][x]) {
           continue;
         }
-      }
-      if (!this.board[y][x]) {
-        let cell = this.board[y][x];
-        this.board[y][x] = null;
-        let dst = y;
-        while (dst + 1 < Config.stageRows && this.board[dst + 1][x] == null) {
-          dst++;
+        if (!this.board[y + 1][x]) {
+          let cell = this.board[y][x];
+          this.board[y][x] = null;
+          let dst = y;
+          while (dst + 1 < Config.stageRows && this.board[dst + 1][x] == null) {
+            dst++;
+          }
+          this.board[dst][x] = null;
+          this.fallingPuyoList.push({
+            element: cell.element,
+            position: Config.puyoImgHeight * y,
+            destination: dst * Config.puyoImgHeight,
+            falling: true,
+          });
+          isFalling = true;
         }
-        this.board[dst][x] = null;
-        this.fallingPuyoList.push({
-          element: cell.element,
-          position: Config.puyoImgHeight * y,
-          destination: dst * Config.puyoImgHeight,
-          falling: true,
-        });
-        isFalling = true;
       }
     }
     return isFalling;
@@ -115,7 +116,7 @@ class Stage {
     this.eraseStartFrame = startFrame;
     this.erasingPuyoInfoList.length = 0;
     const erasedPuyoColor = {};
-    const sequensePuyoInfoList = [];
+    const sequencePuyoInfoList = [];
     const existingPuyoInfoList = [];
     const checkSequentialPuyo = (x, y) => {
       const orig = this.board[y][x];
@@ -158,11 +159,11 @@ class Stage {
           !sequencePuyoInfoList.length ||
           sequensePuyoInfoList.length < Config.erasePuyoCount
         ) {
-          if (sequensePuyoInfoList.length) {
-            existingPuyoInfoList.push(...sequensePuyoInfoList);
+          if (sequencePuyoInfoList.length) {
+            existingPuyoInfoList.push(...sequencePuyoInfoList);
           }
         } else {
-          this.erasingPuyoInfoList.push(...sequensePuyoInfoList);
+          this.erasingPuyoInfoList.push(...sequencePuyoInfoList);
           erasedPuyoColor[puyoColor] = true;
         }
       }

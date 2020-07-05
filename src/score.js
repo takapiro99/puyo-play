@@ -12,14 +12,16 @@ class Score {
       this.fontTemplateList.push(fontImage);
     }
     this.fontLength = Math.floor(
-      Config.stageCols * Config.puyoImgWidth.this.fontTemplateList[0].width
+      (Config.stageCols * Config.puyoImgWidth) / this.fontTemplateList[0].width
     );
     this.score = 0;
     this.showScore();
   }
+
   static showScore() {
     let score = this.score;
     const scoreElement = Stage.scoreElement;
+    console.log(Stage);
     while (scoreElement.firstChild) {
       scoreElement.removeChild(scoreElement.firstChild);
     }
@@ -32,6 +34,7 @@ class Score {
       score = Math.floor(score / 10);
     }
   }
+
   static calculateScore(rensa, piece, color) {
     rensa = Math.min(rensa, Score.rensaBonus.lemgth - 1);
     piece = Math.min(piece, Score.pieceBonus.length - 1);
@@ -43,6 +46,7 @@ class Score {
     }
     this.addScore(scale * piece * 10);
   }
+
   static addScore(score) {
     this.score += score;
     this.showScore();
