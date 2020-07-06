@@ -3,7 +3,6 @@
 class PuyoImage {
   static initialize() {
     this.puyoImages = [];
-    console.log(Config.puyoImgHeight, Config.puyoImgWidth);
     for (let i = 0; i < 5; i++) {
       const image = document.getElementById(`puyo_${i + 1}`);
       image.removeAttribute("id");
@@ -11,6 +10,7 @@ class PuyoImage {
       image.height = Config.puyoImgHeight;
       image.style.position = "absolute";
       this.puyoImages[i] = image;
+      // console.log(this.puyoImages);
     }
 
     this.batankyuImage = document.getElementById("batankyu");

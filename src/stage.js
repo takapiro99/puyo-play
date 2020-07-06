@@ -74,9 +74,7 @@ class Stage {
     for (let y = Config.stageRows - 2; y >= 0; y--) {
       const line = this.board[y];
       for (let x = 0; x < line.length; x++) {
-        if (!this.board[y][x]) {
-          continue;
-        }
+        if (!this.board[y][x]) continue;
         if (!this.board[y + 1][x]) {
           let cell = this.board[y][x];
           this.board[y][x] = null;
@@ -84,7 +82,7 @@ class Stage {
           while (dst + 1 < Config.stageRows && this.board[dst + 1][x] == null) {
             dst++;
           }
-          this.board[dst][x] = null;
+          this.board[dst][x] = cell;
           this.fallingPuyoList.push({
             element: cell.element,
             position: Config.puyoImgHeight * y,
@@ -158,7 +156,7 @@ class Stage {
       }
     };
     for (let y = 0; y < Config.stageRows; y++) {
-      for (let x = 0; x < Config.stageRows; x++) {
+      for (let x = 0; x < Config.stageCols; x++) {
         sequencePuyoInfoList.length = 0;
         const puyoColor = this.board[y][x] && this.board[y][x].puyo;
         checkSequentialPuyo(x, y);

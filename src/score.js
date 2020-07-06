@@ -1,6 +1,6 @@
 class Score {
   static initialize() {
-    console.log("score initializing...");
+    // console.log("score initializing...");
     this.fontTemplateList = [];
     let fontWidth = 0;
     for (let i = 0; i < 10; i++) {
@@ -12,8 +12,7 @@ class Score {
       fontImage.width = fontWidth;
       this.fontTemplateList.push(fontImage);
     }
-    console.log(this.fontTemplateList);
-    console.log("font done");
+    // console.log(this.fontTemplateList);
     this.fontLength = Math.floor(
       (Config.stageCols * Config.puyoImgWidth) / this.fontTemplateList[0].width
     );
@@ -22,10 +21,10 @@ class Score {
   }
 
   static showScore() {
-    console.log("showing score!");
+    // console.log("showing score!");
     let score = this.score;
     const scoreElement = Stage.scoreElement;
-    console.log(scoreElement);
+    // console.log(scoreElement);
     while (scoreElement.firstChild) {
       scoreElement.removeChild(scoreElement.firstChild);
     }
@@ -38,7 +37,6 @@ class Score {
       );
       score = Math.floor(score / 10);
     }
-    console.log("inserted new score");
   }
 
   static calculateScore(rensa, piece, color) {
