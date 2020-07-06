@@ -16,24 +16,21 @@ const initialize = () => {
   Score.initialize();
   mode = "start";
   frame = 0;
+  console.log("initialized!");
 };
 
 const loop = () => {
+  console.log(mode);
   switch (mode) {
     case "start":
       mode = "checkfall";
       break;
     case "checkfall":
-      if (Stage.checkFall()) {
-        mode = "fall";
-      } else {
-        mode = "checkErase";
-      }
+      if (Stage.checkFall()) mode = "fall";
+      else mode = "checkErase";
       break;
     case "fall":
-      if (!Stage.fall()) {
-        mode = "checlErase";
-      }
+      if (!Stage.fall()) mode = "checkErase";
       break;
     case "checkErase":
       const eraseInfo = Stage.checkErase();
@@ -47,9 +44,7 @@ const loop = () => {
         );
         Stage.hideZenkeshi();
       } else {
-        if (Stage.puyoCount === 0 && combinationCount > 0) {
-          Stage.showZenkeshi();
-        }
+        if (Stage.puyoCount === 0 && combinationCount > 0) Stage.showZenkeshi();
         combinationCount = 0;
         mode = "newPuyo";
       }
@@ -60,24 +55,18 @@ const loop = () => {
       }
       break;
     case "newPuyo":
-      if (!Player.createNewPuyo) {
-        mode = "gameOver";
-      } else {
-        mode = "Playing";
-      }
+      if (!Player.createNewPuyo) mode = "gameOver";
+      else mode = "Playing";
       break;
     case "playing":
       const action = Player.playing(frame);
       mode = "action"; // playing, moving, rotating, fixのどれか
+      break;
     case "moving":
-      if (!Player.moving(frame)) {
-        mode = "playing";
-      }
+      if (!Player.moving(frame)) mode = "playing";
       break;
     case "rotating":
-      if (!Player.rotating(frame)) {
-        mode = "player";
-      }
+      if (!Player.rotating(frame)) mode = "player";
       break;
     case "fix":
       Player.fix();

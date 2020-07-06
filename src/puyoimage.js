@@ -3,6 +3,7 @@
 class PuyoImage {
   static initialize() {
     this.puyoImages = [];
+    console.log(Config.puyoImgHeight, Config.puyoImgWidth);
     for (let i = 0; i < 5; i++) {
       const image = document.getElementById(`puyo_${i + 1}`);
       image.removeAttribute("id");
@@ -29,7 +30,7 @@ class PuyoImage {
   }
 
   static batankyu() {
-    const ratio = (frame - this.gameOverFrame) / Config.puyoImgWIdth;
+    const ratio = (frame - this.gameOverFrame) / Config.puyoImgWidth;
     const x =
       Math.cos(Math.PI / 2 + ratio * Math.PI * 2 * 10) * Config.puyoImgWidth;
     const y =

@@ -12,7 +12,7 @@ Config.puyoImgHeight =
   (window.innerHeight - Config.fontHeight) / Config.stageRows;
 Config.puyoImgWidth = Config.puyoImgHeight;
 
-Config.stageBackgroundColor = "#FFFFFF";
+Config.stageBackgroundColor = "#EEEEEE";
 Config.scoreBackgroundColor = "#24C0BB";
 
 Config.freeFallingSpeed = 16;

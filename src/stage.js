@@ -3,7 +3,8 @@ class Stage {
     const stageElement = document.getElementById("stage");
     stageElement.style.width = Config.puyoImgWidth * Config.stageCols + "px";
     stageElement.style.height = Config.puyoImgHeight * Config.stageRows + "px";
-    stageElement.style.backgroundColor = Config.stageBackgroudColor;
+    stageElement.style.backgroundColor = Config.stageBackgroundColor;
+    stageElement.style.border = "1px solid blue";
     this.stageElement = stageElement;
 
     const zenkeshiImage = document.getElementById("zenkeshi");
@@ -34,23 +35,29 @@ class Stage {
       [0, 0, 0, 0, 0, 0],
       [0, 0, 0, 0, 0, 0],
     ];
+
     let puyoCount = 0;
     for (let y = 0; y < Config.stageRows; y++) {
       const line = this.board[y] || (this.board[y] = []);
       for (let x = 0; x < Config.stageCols; x++) {
         const puyo = line[x];
+        console.log(puyo);
         if (puyo >= 1 && puyo <= 5) {
+          console.log(x, y, puyo);
           this.setPuyo(x, y, puyo);
           puyoCount++;
+          console.log("set");
         } else {
           line[x] = null;
         }
       }
     }
+    console.log(puyoCount);
     this.puyoCount = puyoCount;
   }
 
-  static setPuyo() {
+  static setPuyo(x, y, puyo) {
+    console.log(x, y, puyo);
     const puyoImage = PuyoImage.getPuyo(puyo);
     puyoImage.style.left = x * Config.puyoImgWidth + "px";
     puyoImage.style.top = y * Config.puyoImgHeight + "px";

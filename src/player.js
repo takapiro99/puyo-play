@@ -233,9 +233,7 @@ class Player {
         x + cx >= Config.stageCols ||
         Stage.board[y][x + cx]
       ) {
-        if (my >= 0) {
-          canMove = false;
-        }
+        if (my >= 0) canMove = false;
       }
       if (
         my < 0 ||
@@ -243,9 +241,7 @@ class Player {
         mx + cx >= Config.stageCols ||
         Stage.board[my][mx + cx]
       ) {
-        if (my >= 0) {
-          canMove = false;
-        }
+        if (my >= 0) canMove = false;
       }
       if (this.groundFrame === 0) {
         if (
@@ -291,11 +287,9 @@ class Player {
           x - 1 >= Config.stageCols ||
           Stage.board[y + 1][x - 1]
         ) {
-          if (y + 1 >= 0) {
-            cx = 1;
-          }
+          if (y + 1 >= 0) cx = 1;
         }
-        if (cs === 1) {
+        if (cx === 1) {
           if (
             y + 1 < 0 ||
             x + 1 < 0 ||
@@ -303,9 +297,7 @@ class Player {
             x + 1 >= Config.stageCols ||
             Stage.board[y + 1][x + 1]
           ) {
-            if (y + 1 >= 0) {
-              canRotate = false;
-            }
+            if (y + 1 >= 0) canRotate = false;
           }
         }
       } else if (rotation === 180) {
@@ -335,38 +327,39 @@ class Player {
           if (
             y + 1 < 0 ||
             x - 1 < 0 ||
-            x - 1 >= Config.stageRows ||
+            x - 1 >= Config.stageCols ||
             Stage.board[y + 1][x - 1]
           ) {
             if (y + 1 >= 0) canRotate = false;
           }
         }
       }
-    }
-    if (canRotate) {
-      if (cy === -1) {
-        if (this.groundFrame > 0) {
-          this.puyoStatus.y -= 1;
-          this.groundFrame = 0;
+      if (canRotate) {
+        if (cy === -1) {
+          if (this.groundFrame > 0) {
+            this.puyoStatus.y -= 1;
+            this.groundFrame = 0;
+          }
+          this.puyoStatus.top = this.puyoStatus.y * Config.puyoImgHeight;
         }
-        this.puyoStatus.top = this.puyoStatus.y * Config.puyoImgHeight;
+        this.actionStartFrame = frame;
+        this.rotateBeforeLeft = x * Config.puyoImgHeight;
+        this.rotateAfterLeft = (x + cx) * Config.puyoImgHeight;
+        this.rotateFromRotation = this.puyoStatus.rotation;
+        this.puyoStatus.x += cx;
+        const distRotation = (this.puyoStatus.rotation + 90) % 360;
+        const dCombi = [
+          [1, 0],
+          [0, -1],
+          [-1, 0],
+          [0, 1],
+        ][distRotation / 90];
+        this.puyoStatus.dx = dCombi[0];
+        this.puyoStatus.dy = dCombi[1];
+        return "rotating";
       }
-      this.actionStartFrame = frame;
-      this.rotateBeforeLeft = x * Config.puyoImgHeight;
-      this.rotateAfterLeft = (x + cx) * Config.puyoImgHeight;
-      this.rotateFromRotation = this.puyoStatus.rotation;
-      this.puyoStatus.x += cx;
-      const distRotation = (this.puyoStatus.rotation + 90) % 360;
-      const dCombi = [
-        [1, 0],
-        [0, -1],
-        [-1, 0],
-        [0, 1],
-      ][distRotation / 90];
-      this.puyoStatus.dx = dCombi[0];
-      this.puyoStatus.dy = dCombi[1];
-      return "rotating";
     }
+    return "playing";
   }
 
   static moving(frame) {
