@@ -118,21 +118,18 @@ class Player {
   }
 
   static createNewPuyo() {
-    if (Stage.board[0][2]) {
-      return false;
-    }
+    if (Stage.board[0][2]) return false;
     const puyoColors = Math.max(1, Math.min(5, Config.puyoColors));
     this.centerPuyo = Math.floor(Math.random() * puyoColors) + 1;
     this.movablePuyo = Math.floor(Math.random() * puyoColors) + 1;
-
     this.centerPuyoElement = PuyoImage.getPuyo(this.centerPuyo);
     this.movablePuyoElement = PuyoImage.getPuyo(this.movablePuyo);
     Stage.stageElement.appendChild(this.centerPuyoElement);
     Stage.stageElement.appendChild(this.movablePuyoElement);
-
+    console.log(Stage.stageElement);
     this.puyoStatus = {
       x: 2,
-      y: 1,
+      y: -1,
       left: 2 * Config.puyoImgWidth,
       top: -1 * Config.puyoImgHeight,
       dx: 0,
@@ -146,8 +143,8 @@ class Player {
   }
 
   static setPuyoPosition() {
-    this.centerPuyo.style.left = this.puyoStatus.left + "px";
-    this.centerPuyo.style.top = this.puyoStatus.top + "px";
+    this.centerPuyoElement.style.left = this.puyoStatus.left + "px";
+    this.centerPuyoElement.style.top = this.puyoStatus.top + "px";
     const x =
       this.puyoStatus.left +
       Math.cos((this.puyoStatus.rotation * Math.PI) / 100) *
@@ -168,8 +165,9 @@ class Player {
     let dy = this.puyoStatus.dy;
     if (
       y + 1 >= Config.stageRows ||
-      stage.board[y + 1][x] ||
-      (y + dy + 1 >= 0 && (Config.stageRows || Stage.board[y + dy + 1][x + dx]))
+      Stage.board[y + 1][x] ||
+      (y + dy + 1 >= 0 &&
+        (y + dy + 1 >= Config.stageRows || Stage.board[y + dy + 1][x + dx]))
     ) {
       isBlocked = true;
     }
@@ -178,7 +176,7 @@ class Player {
       if (isDownPressed) {
         this.puyoStatus.top += Config.playerDownSpeed;
       }
-      if (Math.floor(this.puyoStatus.top / Congfig.puyoImgHeight) != y) {
+      if (Math.floor(this.puyoStatus.top / Config.puyoImgHeight) != y) {
         if (isDownPressed) Score.addScore(1);
         y += 1;
         this.puyoStatus.y = y;
@@ -216,7 +214,8 @@ class Player {
 
   static playing(frame) {
     if (this.falling(this.keyStatus.down)) {
-      this.setPiyoPosition();
+      console.log("go to fix");
+      this.setPuyoPosition();
       return "fix";
     }
     this.setPuyoPosition();
@@ -233,7 +232,7 @@ class Player {
         x + cx >= Config.stageCols ||
         Stage.board[y][x + cx]
       ) {
-        if (my >= 0) canMove = false;
+        if (y >= 0) canMove = false;
       }
       if (
         my < 0 ||
@@ -255,12 +254,13 @@ class Player {
         if (
           my + 1 < 0 ||
           mx + cx < 0 ||
-          mx + cx > Config.stageCols ||
+          mx + cx >= Config.stageCols ||
           Stage.board[my + 1][mx + cx]
         ) {
           if (my + 1 >= 0) canMove = false;
         }
       }
+      console.log("canmove", canMove);
       if (canMove) {
         this.actionStartFrame = frame;
         this.moveSource = x * Config.puyoImgWidth;
@@ -301,7 +301,11 @@ class Player {
           }
         }
       } else if (rotation === 180) {
-        if (y + 2 < 0 || y + 2 >= Config.stagerows || Stage.board[y + 2][x]) {
+        if (
+          y + 2 < 0 ||
+          y + 2 >= Config.stagerows ||
+          Stage.board[y + 2][x - 1]
+        ) {
           if (y + 2 >= 0) cy = -1;
         }
         if (
@@ -334,6 +338,7 @@ class Player {
           }
         }
       }
+      console.log("canrotate!", canRotate);
       if (canRotate) {
         if (cy === -1) {
           if (this.groundFrame > 0) {

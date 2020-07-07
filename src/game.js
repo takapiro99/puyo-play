@@ -55,18 +55,18 @@ const loop = () => {
       }
       break;
     case "newPuyo":
-      if (!Player.createNewPuyo) mode = "gameOver";
-      else mode = "Playing";
+      if (!Player.createNewPuyo()) mode = "gameOver";
+      else mode = "playing";
       break;
     case "playing":
       const action = Player.playing(frame);
-      mode = "action"; // playing, moving, rotating, fixのどれか
+      mode = action; // playing, moving, rotating, fixのどれか
       break;
     case "moving":
       if (!Player.moving(frame)) mode = "playing";
       break;
     case "rotating":
-      if (!Player.rotating(frame)) mode = "player";
+      if (!Player.rotating(frame)) mode = "playing";
       break;
     case "fix":
       Player.fix();
