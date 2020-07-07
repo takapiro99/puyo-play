@@ -40,14 +40,15 @@ class Score {
   }
 
   static calculateScore(rensa, piece, color) {
-    rensa = Math.min(rensa, Score.rensaBonus.lemgth - 1);
+    rensa = Math.min(rensa, Score.rensaBonus.length - 1);
     piece = Math.min(piece, Score.pieceBonus.length - 1);
-    color = Math.min(piece, Score.colorBonus.length - 1);
+    color = Math.min(color, Score.colorBonus.length - 1);
+    console.log(rensa, piece, color);
     let scale =
-      Score.rensaBonus[rensa] + Score.pieceBonus[piece] + Score[color];
-    if (scale === 0) {
-      scale = 1;
-    }
+      Score.rensaBonus[rensa] +
+      Score.pieceBonus[piece] +
+      Score.colorBonus[color];
+    if (scale === 0) scale = 1;
     this.addScore(scale * piece * 10);
   }
 

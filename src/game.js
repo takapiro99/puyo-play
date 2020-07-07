@@ -23,9 +23,9 @@ const loop = () => {
   console.log(mode);
   switch (mode) {
     case "start":
-      mode = "checkfall";
+      mode = "checkFall";
       break;
-    case "checkfall":
+    case "checkFall":
       if (Stage.checkFall()) mode = "fall";
       else mode = "checkErase";
       break;
@@ -50,9 +50,7 @@ const loop = () => {
       }
       break;
     case "erasing":
-      if (!Stage.erasing(frame)) {
-        mode = "checkFall";
-      }
+      if (!Stage.erasing(frame)) mode = "checkFall";
       break;
     case "newPuyo":
       if (!Player.createNewPuyo()) mode = "gameOver";

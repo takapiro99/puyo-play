@@ -85,7 +85,7 @@ class Stage {
           this.board[dst][x] = cell;
           this.fallingPuyoList.push({
             element: cell.element,
-            position: Config.puyoImgHeight * y,
+            position: y * Config.puyoImgHeight,
             destination: dst * Config.puyoImgHeight,
             falling: true,
           });
@@ -99,11 +99,9 @@ class Stage {
   static fall() {
     let isFalling = false;
     for (const fallingPuyo of this.fallingPuyoList) {
-      if (!fallingPuyo.falling) {
-        continue;
-      }
+      if (!fallingPuyo.falling) continue;
       let position = fallingPuyo.position;
-      position += Config.freeFallingSpped;
+      position += Config.freeFallingSpeed;
 
       if (position >= fallingPuyo.destination) {
         position = fallingPuyo.destination;
@@ -162,7 +160,7 @@ class Stage {
         checkSequentialPuyo(x, y);
         if (
           !sequencePuyoInfoList.length ||
-          sequensePuyoInfoList.length < Config.erasePuyoCount
+          sequencePuyoInfoList.length < Config.erasePuyoCount
         ) {
           if (sequencePuyoInfoList.length) {
             existingPuyoInfoList.push(...sequencePuyoInfoList);

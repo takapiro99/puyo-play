@@ -126,7 +126,6 @@ class Player {
     this.movablePuyoElement = PuyoImage.getPuyo(this.movablePuyo);
     Stage.stageElement.appendChild(this.centerPuyoElement);
     Stage.stageElement.appendChild(this.movablePuyoElement);
-    console.log(Stage.stageElement);
     this.puyoStatus = {
       x: 2,
       y: -1,
@@ -147,11 +146,11 @@ class Player {
     this.centerPuyoElement.style.top = this.puyoStatus.top + "px";
     const x =
       this.puyoStatus.left +
-      Math.cos((this.puyoStatus.rotation * Math.PI) / 100) *
+      Math.cos((this.puyoStatus.rotation * Math.PI) / 180) *
         Config.puyoImgWidth;
     const y =
       this.puyoStatus.top +
-      Math.sin((this.puyoStatus.rotation * Math.PI) / 100) *
+      Math.sin((this.puyoStatus.rotation * Math.PI) / 180) *
         Config.puyoImgHeight;
     this.movablePuyoElement.style.left = x + "px";
     this.movablePuyoElement.style.top = y + "px";
@@ -206,7 +205,7 @@ class Player {
       return;
     } else {
       this.groundFrame++;
-      if (this.groundFrame > Config.playerGroudFrame) {
+      if (this.groundFrame > Config.playerGroundFrame) {
         return true;
       }
     }
@@ -214,7 +213,6 @@ class Player {
 
   static playing(frame) {
     if (this.falling(this.keyStatus.down)) {
-      console.log("go to fix");
       this.setPuyoPosition();
       return "fix";
     }
@@ -260,7 +258,6 @@ class Player {
           if (my + 1 >= 0) canMove = false;
         }
       }
-      console.log("canmove", canMove);
       if (canMove) {
         this.actionStartFrame = frame;
         this.moveSource = x * Config.puyoImgWidth;
@@ -338,7 +335,6 @@ class Player {
           }
         }
       }
-      console.log("canrotate!", canRotate);
       if (canRotate) {
         if (cy === -1) {
           if (this.groundFrame > 0) {
@@ -376,25 +372,24 @@ class Player {
     this.puyoStatus.left =
       ratio * (this.moveDestination - this.moveSource) + this.moveSource;
     this.setPuyoPosition();
-    if (ratio === 1) {
-      return false;
-    }
+    if (ratio === 1) return false;
     return true;
   }
 
-  static rotating() {
+  static rotating(frame) {
     this.falling();
     const ratio = Math.min(
       1,
       (frame - this.actionStartFrame) / Config.playerRotateFrame
     );
+    // console.log(ratio);
     this.puyoStatus.left =
       (this.rotateAfterLeft - this.rotateBeforeLeft) * ratio +
       this.rotateBeforeLeft;
     this.puyoStatus.rotation = this.rotateFromRotation + ratio * 90;
     this.setPuyoPosition();
     if (ratio === 1) {
-      this.puyoStatus.rotatiaon = (this.rotateFromRotation + 90) % 360;
+      this.puyoStatus.rotation = (this.rotateFromRotation + 90) % 360;
       return false;
     }
     return true;
