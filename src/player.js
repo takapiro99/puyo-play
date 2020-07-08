@@ -158,10 +158,7 @@ class Player {
 
   static falling(isDownPressed) {
     let isBlocked = false;
-    let x = this.puyoStatus.x;
-    let y = this.puyoStatus.y;
-    let dx = this.puyoStatus.dx;
-    let dy = this.puyoStatus.dy;
+    let { x, y, dx, dy } = this.puyoStatus;
     if (
       y + 1 >= Config.stageRows ||
       Stage.board[y + 1][x] ||
@@ -396,16 +393,14 @@ class Player {
   }
 
   static fix() {
-    const x = this.puyoStatus.x;
-    const y = this.puyoStatus.y;
-    const dx = this.puyoStatus.dx;
-    const dy = this.puyoStatus.dy;
+    const { x, y, dx, dy } = this.puyoStatus;
     if (y >= 0) {
       Stage.setPuyo(x, y, this.centerPuyo);
       Stage.puyoCount++;
     }
     if (y + dy >= 0) {
       Stage.setPuyo(x + dx, y + dy, this.movablePuyo);
+      Stage.puyoCount++;
     }
     Stage.stageElement.removeChild(this.centerPuyoElement);
     Stage.stageElement.removeChild(this.movablePuyoElement);

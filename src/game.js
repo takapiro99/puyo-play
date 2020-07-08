@@ -7,7 +7,7 @@ window.addEventListener("load", () => {
 
 let mode;
 let frame;
-let combinationCount;
+let combinationCount = 0;
 
 const initialize = () => {
   PuyoImage.initialize();
@@ -33,7 +33,7 @@ const loop = () => {
       if (!Stage.fall()) mode = "checkErase";
       break;
     case "checkErase":
-      const eraseInfo = Stage.checkErase();
+      const eraseInfo = Stage.checkErase(frame);
       if (eraseInfo) {
         mode = "erasing";
         combinationCount++;
@@ -44,7 +44,10 @@ const loop = () => {
         );
         Stage.hideZenkeshi();
       } else {
-        if (Stage.puyoCount === 0 && combinationCount > 0) Stage.showZenkeshi();
+        if (Stage.puyoCount === 0 && combinationCount > 0) {
+          Stage.showZenkeshi();
+          Score.addScore(3600);
+        }
         combinationCount = 0;
         mode = "newPuyo";
       }

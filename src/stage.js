@@ -57,7 +57,6 @@ class Stage {
   }
 
   static setPuyo(x, y, puyo) {
-    console.log(x, y, puyo);
     const puyoImage = PuyoImage.getPuyo(puyo);
     puyoImage.style.left = x * Config.puyoImgWidth + "px";
     puyoImage.style.top = y * Config.puyoImgHeight + "px";
@@ -187,6 +186,7 @@ class Stage {
   static erasing(frame) {
     const elapsedFrame = frame - this.eraseStartFrame;
     const ratio = elapsedFrame / Config.eraseAnimationDuration;
+    // console.log(ratio);
     if (ratio > 1) {
       for (const info of this.erasingPuyoInfoList) {
         var element = info.cell.element;
