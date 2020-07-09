@@ -11,7 +11,6 @@ class Score {
       fontImage.width = fontWidth;
       this.fontTemplateList.push(fontImage);
     }
-    console.log(this.fontTemplateList);
     this.fontLength = Math.floor(
       (Config.stageCols * Config.puyoImgWidth) / this.fontTemplateList[0].width
     );
@@ -39,7 +38,6 @@ class Score {
     rensa = Math.min(rensa, Score.rensaBonus.length - 1);
     piece = Math.min(piece, Score.pieceBonus.length - 1);
     color = Math.min(color, Score.colorBonus.length - 1);
-    console.log(rensa, piece, color);
     let scale =
       Score.rensaBonus[rensa] +
       Score.pieceBonus[piece] +

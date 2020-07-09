@@ -13,7 +13,8 @@ Config.puyoImgHeight =
 Config.puyoImgWidth = Config.puyoImgHeight;
 
 Config.stageBackgroundColor = "#EEEEEE";
-Config.scoreBackgroundColor = "#24C0BB";
+// Config.scoreBackgroundColor = "#24C0BB";
+Config.scoreBackgroundColor = "#AAA";
 
 Config.freeFallingSpeed = 16;
 Config.erasePuyoCount = 4;

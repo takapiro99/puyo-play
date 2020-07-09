@@ -10,9 +10,7 @@ class PuyoImage {
       image.height = Config.puyoImgHeight;
       image.style.position = "absolute";
       this.puyoImages[i] = image;
-      // console.log(this.puyoImages);
     }
-
     this.batankyuImage = document.getElementById("batankyu");
     this.batankyuImage.width = Config.puyoImgWidth * 6;
     this.batankyuImage.style.position = "absolute";
@@ -26,11 +24,11 @@ class PuyoImage {
   static prepareBatankyu(frame) {
     this.gameOverFrame = frame;
     Stage.stageElement.appendChild(this.batankyuImage);
-    this.batankyuImage.style.top = -this.batankyuImage.height;
+    this.batankyuImage.style.top = -this.batankyuImage.height + "px";
   }
 
   static batankyu() {
-    const ratio = (frame - this.gameOverFrame) / Config.puyoImgWidth;
+    const ratio = (frame - this.gameOverFrame) / Config.gameOverFrame;
     const x =
       Math.cos(Math.PI / 2 + ratio * Math.PI * 2 * 10) * Config.puyoImgWidth;
     const y =

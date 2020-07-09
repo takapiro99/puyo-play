@@ -51,70 +51,70 @@ class Player {
       }
     });
 
-    this.touchPoint = {
-      xs: 0,
-      ys: 0,
-      xe: 0,
-      ye: 0,
-    };
+    // this.touchPoint = {
+    //   xs: 0,
+    //   ys: 0,
+    //   xe: 0,
+    //   ye: 0,
+    // };
 
-    document.addEventListener("touchstart", (e) => {
-      this.touchPoint.xs = e.touches[0].clientX;
-      this.touchPoint.ys = e.touches[0].clientY;
-    });
-    document.addEventListener("touchmove", (e) => {
-      if (
-        Math.abs(e.touches[0].clientX - this.touchPoint.xs) < 20 &&
-        Math.abs(e.touches[0].clientY - this.touchPoint.ys) < 20
-      ) {
-        return;
-      }
+    // document.addEventListener("touchstart", (e) => {
+    //   this.touchPoint.xs = e.touches[0].clientX;
+    //   this.touchPoint.ys = e.touches[0].clientY;
+    // });
+    // document.addEventListener("touchmove", (e) => {
+    //   if (
+    //     Math.abs(e.touches[0].clientX - this.touchPoint.xs) < 20 &&
+    //     Math.abs(e.touches[0].clientY - this.touchPoint.ys) < 20
+    //   ) {
+    //     return;
+    //   }
 
-      this.touchPoint.xe = e.touches[0].clientX;
-      this.touchPoint.ye = e.touches[0].clientY;
-      const { xs, ys, xe, ye } = this.touchPoint;
-      gesture(xs, ys, xe, ye);
+    //   this.touchPoint.xe = e.touches[0].clientX;
+    //   this.touchPoint.ye = e.touches[0].clientY;
+    //   const { xs, ys, xe, ye } = this.touchPoint;
+    //   gesture(xs, ys, xe, ye);
 
-      this.touchPoint.xs = this.touchPoint.xe;
-      this.touchPoint.ys = this.touchPoint.ye;
-    });
-    document.addEventListener("touchend", (e) => {
-      this.keyStatus.up = false;
-      this.keyStatus.down = false;
-      this.keyStatus.right = false;
-      this.keyStatus.left = false;
-    });
+    //   this.touchPoint.xs = this.touchPoint.xe;
+    //   this.touchPoint.ys = this.touchPoint.ye;
+    // });
+    // document.addEventListener("touchend", (e) => {
+    //   this.keyStatus.up = false;
+    //   this.keyStatus.down = false;
+    //   this.keyStatus.right = false;
+    //   this.keyStatus.left = false;
+    // });
 
-    const gesture = (xs, ys, xe, ye) => {
-      const horizonDirection = xe - xs;
-      const verticalDirection = ye - ys;
+    // const gesture = (xs, ys, xe, ye) => {
+    //   const horizonDirection = xe - xs;
+    //   const verticalDirection = ye - ys;
 
-      if (Math.abs(horizonDirection) < Math.abs(verticalDirection)) {
-        if (verticalDirection < 0) {
-          this.keyStatus.up = true;
-          this.keyStatus.down = false;
-          this.keyStatus.left = false;
-          this.keyStatus.right = false;
-        } else if (0 <= verticalDirection) {
-          this.keyStatus.up = false;
-          this.keyStatus.down = true;
-          this.keyStatus.left = false;
-          this.keyStatus.right = false;
-        }
-      } else {
-        if (horizonDirection < 0) {
-          this.keyStatus.up = false;
-          this.keyStatus.down = false;
-          this.keyStatus.left = true;
-          this.keyStatus.right = false;
-        } else if (0 <= horizonDirection) {
-          this.keyStatus.up = false;
-          this.keyStatus.down = false;
-          this.keyStatus.left = false;
-          this.keyStatus.right = true;
-        }
-      }
-    };
+    //   if (Math.abs(horizonDirection) < Math.abs(verticalDirection)) {
+    //     if (verticalDirection < 0) {
+    //       this.keyStatus.up = true;
+    //       this.keyStatus.down = false;
+    //       this.keyStatus.left = false;
+    //       this.keyStatus.right = false;
+    //     } else if (0 <= verticalDirection) {
+    //       this.keyStatus.up = false;
+    //       this.keyStatus.down = true;
+    //       this.keyStatus.left = false;
+    //       this.keyStatus.right = false;
+    //     }
+    //   } else {
+    //     if (horizonDirection < 0) {
+    //       this.keyStatus.up = false;
+    //       this.keyStatus.down = false;
+    //       this.keyStatus.left = true;
+    //       this.keyStatus.right = false;
+    //     } else if (0 <= horizonDirection) {
+    //       this.keyStatus.up = false;
+    //       this.keyStatus.down = false;
+    //       this.keyStatus.left = false;
+    //       this.keyStatus.right = true;
+    //     }
+    //   }
+    // };
   }
 
   static createNewPuyo() {
@@ -142,14 +142,14 @@ class Player {
   }
 
   static setPuyoPosition() {
-    this.centerPuyoElement.style.left = this.puyoStatus.left + "px";
-    this.centerPuyoElement.style.top = this.puyoStatus.top + "px";
+    this.centerPuyoElement.style.left = `${this.puyoStatus.left}px`;
+    this.centerPuyoElement.style.top = `${this.puyoStatus.top}px`;
     const x =
       this.puyoStatus.left +
       Math.cos((this.puyoStatus.rotation * Math.PI) / 180) *
         Config.puyoImgWidth;
     const y =
-      this.puyoStatus.top +
+      this.puyoStatus.top -
       Math.sin((this.puyoStatus.rotation * Math.PI) / 180) *
         Config.puyoImgHeight;
     this.movablePuyoElement.style.left = x + "px";
@@ -169,9 +169,7 @@ class Player {
     }
     if (!isBlocked) {
       this.puyoStatus.top += Config.playerFallingSpeed;
-      if (isDownPressed) {
-        this.puyoStatus.top += Config.playerDownSpeed;
-      }
+      if (isDownPressed) this.puyoStatus.top += Config.playerDownSpeed;
       if (Math.floor(this.puyoStatus.top / Config.puyoImgHeight) != y) {
         if (isDownPressed) Score.addScore(1);
         y += 1;
@@ -216,8 +214,7 @@ class Player {
     this.setPuyoPosition();
     if (this.keyStatus.right || this.keyStatus.left) {
       const cx = this.keyStatus.right ? 1 : -1;
-      const x = this.puyoStatus.x;
-      const y = this.puyoStatus.y;
+      const { x, y } = this.puyoStatus;
       const mx = x + this.puyoStatus.dx;
       const my = y + this.puyoStatus.dy;
       let canMove = true;
@@ -263,11 +260,9 @@ class Player {
         return "moving";
       }
     } else if (this.keyStatus.up) {
-      const x = this.puyoStatus.x;
-      const y = this.puyoStatus.y;
+      const { x, y, rotation } = this.puyoStatus;
       const mx = x + this.puyoStatus.dx;
       const my = y + this.puyoStatus.dy;
-      const rotation = this.puyoStatus.rotation;
       let canRotate = true;
 
       let cx = 0;
@@ -295,11 +290,7 @@ class Player {
           }
         }
       } else if (rotation === 180) {
-        if (
-          y + 2 < 0 ||
-          y + 2 >= Config.stagerows ||
-          Stage.board[y + 2][x - 1]
-        ) {
+        if (y + 2 < 0 || y + 2 >= Config.stageRows || Stage.board[y + 2][x]) {
           if (y + 2 >= 0) cy = -1;
         }
         if (
@@ -317,9 +308,7 @@ class Player {
           x + 1 >= Config.stageCols ||
           Stage.board[y + 1][x + 1]
         ) {
-          if (y + 1 >= 0) {
-            cx = -1;
-          }
+          if (y + 1 >= 0) cx = -1;
         }
         if (cx === -1) {
           if (
@@ -379,7 +368,6 @@ class Player {
       1,
       (frame - this.actionStartFrame) / Config.playerRotateFrame
     );
-    // console.log(ratio);
     this.puyoStatus.left =
       (this.rotateAfterLeft - this.rotateBeforeLeft) * ratio +
       this.rotateBeforeLeft;

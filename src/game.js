@@ -1,4 +1,4 @@
-"use strict";
+// "use strict";
 
 window.addEventListener("load", () => {
   initialize();
@@ -16,11 +16,9 @@ const initialize = () => {
   Score.initialize();
   mode = "start";
   frame = 0;
-  console.log("initialized!");
 };
 
 const loop = () => {
-  console.log(mode);
   switch (mode) {
     case "start":
       mode = "checkFall";
@@ -60,8 +58,7 @@ const loop = () => {
       else mode = "playing";
       break;
     case "playing":
-      const action = Player.playing(frame);
-      mode = action; // playing, moving, rotating, fixのどれか
+      mode = Player.playing(frame); // playing, moving, rotating, fixのどれか
       break;
     case "moving":
       if (!Player.moving(frame)) mode = "playing";

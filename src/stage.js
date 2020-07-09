@@ -15,7 +15,7 @@ class Stage {
     stageElement.appendChild(zenkeshiImage);
 
     const scoreElement = document.getElementById("score");
-    scoreElement.style.backgroundColor = Config.scoreBackGroundColor;
+    scoreElement.style.backgroundColor = Config.scoreBackgroundColor;
     scoreElement.style.top = Config.puyoImgHeight * Config.stageRows + "px";
     scoreElement.style.width = Config.puyoImgWidth * Config.stageCols + "px";
     scoreElement.style.height = Config.fontHeight + "px";
@@ -41,18 +41,14 @@ class Stage {
       const line = this.board[y] || (this.board[y] = []);
       for (let x = 0; x < Config.stageCols; x++) {
         const puyo = line[x];
-        console.log(puyo);
         if (puyo >= 1 && puyo <= 5) {
-          console.log(x, y, puyo);
           this.setPuyo(x, y, puyo);
           puyoCount++;
-          console.log("set");
         } else {
           line[x] = null;
         }
       }
     }
-    console.log(puyoCount);
     this.puyoCount = puyoCount;
   }
 
@@ -158,7 +154,7 @@ class Stage {
         const puyoColor = this.board[y][x] && this.board[y][x].puyo;
         checkSequentialPuyo(x, y);
         if (
-          !sequencePuyoInfoList.length ||
+          sequencePuyoInfoList.length == 0 ||
           sequencePuyoInfoList.length < Config.erasePuyoCount
         ) {
           if (sequencePuyoInfoList.length) {
@@ -186,7 +182,6 @@ class Stage {
   static erasing(frame) {
     const elapsedFrame = frame - this.eraseStartFrame;
     const ratio = elapsedFrame / Config.eraseAnimationDuration;
-    // console.log(ratio);
     if (ratio > 1) {
       for (const info of this.erasingPuyoInfoList) {
         var element = info.cell.element;
@@ -233,9 +228,7 @@ class Stage {
       );
       this.zenkeshiImage.style.top =
         (endTop - startTop) * ratio + startTop + "px";
-      if (ratio !== 1) {
-        requestAnimationFrame(animation);
-      }
+      if (ratio !== 1) requestAnimationFrame(animation);
     };
     animation();
   }
