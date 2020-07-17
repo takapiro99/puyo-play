@@ -51,70 +51,70 @@ class Player {
       }
     });
 
-    // this.touchPoint = {
-    //   xs: 0,
-    //   ys: 0,
-    //   xe: 0,
-    //   ye: 0,
-    // };
+    this.touchPoint = {
+      xs: 0,
+      ys: 0,
+      xe: 0,
+      ye: 0,
+    };
 
-    // document.addEventListener("touchstart", (e) => {
-    //   this.touchPoint.xs = e.touches[0].clientX;
-    //   this.touchPoint.ys = e.touches[0].clientY;
-    // });
-    // document.addEventListener("touchmove", (e) => {
-    //   if (
-    //     Math.abs(e.touches[0].clientX - this.touchPoint.xs) < 20 &&
-    //     Math.abs(e.touches[0].clientY - this.touchPoint.ys) < 20
-    //   ) {
-    //     return;
-    //   }
+    document.addEventListener("touchstart", (e) => {
+      this.touchPoint.xs = e.touches[0].clientX;
+      this.touchPoint.ys = e.touches[0].clientY;
+    });
+    document.addEventListener("touchmove", (e) => {
+      if (
+        Math.abs(e.touches[0].clientX - this.touchPoint.xs) < 20 &&
+        Math.abs(e.touches[0].clientY - this.touchPoint.ys) < 20
+      ) {
+        return;
+      }
 
-    //   this.touchPoint.xe = e.touches[0].clientX;
-    //   this.touchPoint.ye = e.touches[0].clientY;
-    //   const { xs, ys, xe, ye } = this.touchPoint;
-    //   gesture(xs, ys, xe, ye);
+      this.touchPoint.xe = e.touches[0].clientX;
+      this.touchPoint.ye = e.touches[0].clientY;
+      const { xs, ys, xe, ye } = this.touchPoint;
+      gesture(xs, ys, xe, ye);
 
-    //   this.touchPoint.xs = this.touchPoint.xe;
-    //   this.touchPoint.ys = this.touchPoint.ye;
-    // });
-    // document.addEventListener("touchend", (e) => {
-    //   this.keyStatus.up = false;
-    //   this.keyStatus.down = false;
-    //   this.keyStatus.right = false;
-    //   this.keyStatus.left = false;
-    // });
+      this.touchPoint.xs = this.touchPoint.xe;
+      this.touchPoint.ys = this.touchPoint.ye;
+    });
+    document.addEventListener("touchend", (e) => {
+      this.keyStatus.up = false;
+      this.keyStatus.down = false;
+      this.keyStatus.right = false;
+      this.keyStatus.left = false;
+    });
 
-    // const gesture = (xs, ys, xe, ye) => {
-    //   const horizonDirection = xe - xs;
-    //   const verticalDirection = ye - ys;
+    const gesture = (xs, ys, xe, ye) => {
+      const horizonDirection = xe - xs;
+      const verticalDirection = ye - ys;
 
-    //   if (Math.abs(horizonDirection) < Math.abs(verticalDirection)) {
-    //     if (verticalDirection < 0) {
-    //       this.keyStatus.up = true;
-    //       this.keyStatus.down = false;
-    //       this.keyStatus.left = false;
-    //       this.keyStatus.right = false;
-    //     } else if (0 <= verticalDirection) {
-    //       this.keyStatus.up = false;
-    //       this.keyStatus.down = true;
-    //       this.keyStatus.left = false;
-    //       this.keyStatus.right = false;
-    //     }
-    //   } else {
-    //     if (horizonDirection < 0) {
-    //       this.keyStatus.up = false;
-    //       this.keyStatus.down = false;
-    //       this.keyStatus.left = true;
-    //       this.keyStatus.right = false;
-    //     } else if (0 <= horizonDirection) {
-    //       this.keyStatus.up = false;
-    //       this.keyStatus.down = false;
-    //       this.keyStatus.left = false;
-    //       this.keyStatus.right = true;
-    //     }
-    //   }
-    // };
+      if (Math.abs(horizonDirection) < Math.abs(verticalDirection)) {
+        if (verticalDirection < 0) {
+          this.keyStatus.up = true;
+          this.keyStatus.down = false;
+          this.keyStatus.left = false;
+          this.keyStatus.right = false;
+        } else if (0 <= verticalDirection) {
+          this.keyStatus.up = false;
+          this.keyStatus.down = true;
+          this.keyStatus.left = false;
+          this.keyStatus.right = false;
+        }
+      } else {
+        if (horizonDirection < 0) {
+          this.keyStatus.up = false;
+          this.keyStatus.down = false;
+          this.keyStatus.left = true;
+          this.keyStatus.right = false;
+        } else if (0 <= horizonDirection) {
+          this.keyStatus.up = false;
+          this.keyStatus.down = false;
+          this.keyStatus.left = false;
+          this.keyStatus.right = true;
+        }
+      }
+    };
   }
 
   static createNewPuyo() {
